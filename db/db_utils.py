@@ -1,5 +1,4 @@
 import sqlite3
-from utils import data_chacher
 
 def insert_user_data(db_path, username, password):
     conn = sqlite3.connect(db_path)
@@ -29,12 +28,15 @@ def get_user(username):
     conn = sqlite3.connect("db/db.sqlite")
     cursor = conn.cursor()
 
+    if username == "all":
+        cursor.execute("SELECT * FROM users")
+        row = cursor.fetchall()
+        return row
+    
     cursor.execute('SELECT * FROM users WHERE username=?', (username,))
-    row = cursor.fetchone()
-
+    row = cursor.fetchall()
     conn.close()
-
-
+    return row
 
 
     

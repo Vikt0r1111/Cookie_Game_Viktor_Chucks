@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="static/css/admin.css">
+    <meta charset="UTF-8">
+    <title>Admin Panel</title>
+</head>
+<body>
+
+<div class="admin">
+    <div class="header">Admin Panel</div>
+<div class="grid">
+    <div class="card">
+        <h3>Users</h3>
+
+        {% if users %}
+            <p>Пользователей: <b>{{ users|length }}</b></p>
+
+            <table border="1" cellpadding="6">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Field 1</th>
+                        <th>Field 2</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                            <tr>
+                                <td>{{ user[0] }}</td>
+                                <td>{{ user[1] }}</td>
+                            </tr>
+                            {% endfor %}
+                </tbody>
+            </table>
+
+        {% else %}
+            <p class="muted">Нет данных</p>
+        {% endif %}
+    </div>
+    <div class="card">
+        <h3>Блок 2</h3>
+
+        {% if server_status %}
+            <p>Статус сервера: {{ server_status }}</p>
+        {% else %}
+            <p class="muted">Статус неизвестен</p>
+        {% endif %}
+    </div>
+</body>
+</html>
