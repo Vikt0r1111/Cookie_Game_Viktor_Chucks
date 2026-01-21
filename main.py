@@ -3,7 +3,7 @@ from flask.sessions import SecureCookieSessionInterface
 from flask import Flask, render_template, request, session, redirect
 from dotenv import load_dotenv
 
-from utils import data_chacher
+from utils import data_chacher, translate_text
 from db import insert_user_data, check_user, get_user
 
 app = Flask(__name__)
@@ -54,7 +54,7 @@ def login():
         
     return render_template("login.html")
 
-@app.route("/admin_panel", methods=["GET", "POST"])
+@app.route("/admin_panel/{language}", methods=["GET", "POST"])
 def admin_panel():
     session_cookie = request.cookies.get("session")
     if not session_cookie:
@@ -69,6 +69,13 @@ def admin_panel():
     print(user_list)
     return render_template("admin.html",
     users=user_list
+    )
+
+@app.route("/privacy-policy/<language>", methods=["GET"])
+def privacy_policy(language):
+    privacy_policy = translate_text("config\\privacy-policy.txt", language)
+    return render_template("privacy-policy.html",
+    privacy_policy = privacy_policy
     )
 
 if __name__ == "__main__":

@@ -14,6 +14,17 @@ def init_db():
     )
     ''')
 
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS users_data (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT NOT NULL UNIQUE,
+        scores TEXT,
+        factories TEXT,
+        grandmas TEXT,
+        
+        )
+    ''')
+
     conn.commit()
     conn.close()
 
