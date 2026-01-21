@@ -1,0 +1,121 @@
+body {
+  background: linear-gradient(135deg, #ffb72a 0%, #ffa500 100%);
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  color: #2c1810;
+}
+
+.home-container {
+  width: 400px;
+  max-width: 400px;
+  padding: 40px;
+  background: linear-gradient(135deg, #fff8dc 0%, #fffacd 100%);
+  border: 3px solid #daa520;
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgb(218 165 32 / 40%);
+}
+
+.home-container h1 {
+  font-size: 32px;
+  color: #8b4513;
+  text-align: center;
+  margin-bottom: 30px;
+  text-shadow: 2px 2px 4px rgb(218 165 32 / 30%);
+}
+
+.user-info {
+  font-size: 18px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Pill-shaped button with bite mark */
+.button[class],
+.btn-new-game,
+.btn-continue,
+.btn-register,
+.btn-logout {
+  position: relative;
+  padding: 14px 40px;
+  background-color: gold;
+  color: #2c1810;
+  border: 3px solid #daa520;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+/* Bite mark effect using pseudo-element */
+.button[class]::after,
+.btn-new-game::after,
+.btn-continue::after,
+.btn-register::after,
+.btn-logout::after {
+  content: '';
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  background: linear-gradient(135deg, #fff8dc 0%, #fffacd 100%);
+  border-radius: 50%;
+  top: -8px;
+  right: 15px;
+}
+
+.button[class]:hover,
+.btn-new-game:hover,
+.btn-continue:hover,
+.btn-register:hover,
+.btn-logout:hover {
+  background-color: #e6ac00;
+  box-shadow: 0 6px 16px rgb(0 0 0 / 25%);
+  transform: translateY(-3px);
+}
+
+.button[class]:active,
+.btn-new-game:active,
+.btn-continue:active,
+.btn-register:active,
+.btn-logout:active {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgb(0 0 0 / 20%);
+}
+
+@media (width <= 600px) {
+  .home-container {
+    width: 90%;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgb(0 0 0 / 10%);
+  }
+
+  .home-container h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .user-info {
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+
+  .button[class] {
+    font-size: 14px;
+    padding: 10px 20px;
+  }
+}

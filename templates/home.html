@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- TODO: Add a title for the home page -->
+    <title>Home - Cookie Clicker</title>
+    <link rel="stylesheet" href="static/css/home.css" />
+  </head>
+  <body>
+    <!-- TODO: Create a home container -->
+    <!-- Hint: Use a div with class "home-container" -->
+    <div class="home-container">
+      <!-- TODO: Add a welcome heading -->
+      <!-- Hint: Use h1 with greeting message -->
+      <h1>Welcome to Cookie Clicker</h1>
+
+      <!-- TODO: Add user info section -->
+      <!-- Hint: Display current user's name/email -->
+      <div class="user-info">
+        <p id="user-greeting">Welcome, User!</p>
+      </div>
+
+      <!-- TODO: Create a button container for options -->
+      <!-- Hint: Use a div with class "button-container" -->
+      <div class="button-container">
+        <!-- TODO: Add "New Game" button -->
+        <!-- Hint: Use a button or anchor tag with class "btn btn-new-game" -->
+        <button class="btn btn-new-game" id="new-game-btn">
+          Start New Game
+        </button>
+
+        <!-- TODO: Add "Continue Game" button -->
+        <!-- Hint: Use a button or anchor tag with class "btn btn-continue" -->
+        <!-- Hint: Disable this button if no save exists -->
+        <button class="btn btn-continue" id="continue-btn">
+          Continue Game
+        </button>
+
+        <!-- TODO: Add "Register New Account" button/link -->
+        <!-- Hint: Use a button or anchor tag with class "btn btn-register" -->
+        <a href="register.html" class="btn btn-register"
+          >Register New Account</a
+        >
+      </div>
+
+      <!-- TODO: Add a logout button -->
+      <!-- Hint: Use a button or link with class "logout-btn" -->
+      <button class="logout-btn" id="logout-btn">Logout</button>
+    </div>
+
+    <script src="static/js/home.js"></script>
+  </body>
+</html>

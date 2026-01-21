@@ -1,0 +1,73 @@
+/* Terms & Conditions Styles */
+
+body {
+  background: linear-gradient(135deg, #ffb72a 0%, #ffa500 100%);
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  color: #2c1810;
+}
+
+.terms-container {
+  max-width: 800px;
+  width: 100%;
+  padding: 40px;
+  background: linear-gradient(135deg, #fff8dc 0%, #fffacd 100%);
+  border: 3px solid #daa520;
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgb(218 165 32 / 40%);
+  margin: 20px;
+}
+
+.terms-container h1 {
+  color: #8b4513;
+  margin-bottom: 30px;
+  font-size: 32px;
+  text-shadow: 2px 2px 4px rgb(218 165 32 / 30%);
+}
+
+.terms-container p {
+  color: #333;
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+.terms-container a {
+  color: #daa520;
+  text-decoration: underline;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.terms-container a:hover {
+  color: #b8860b;
+}
+
+/* ============================================ */
+
+/* Responsive Design                           */
+
+/* ============================================ */
+
+@media (width <= 600px) {
+  .terms-container {
+    width: 100%;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgb(0 0 0 / 10%);
+  }
+
+  .terms-container h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .terms-container p {
+    font-size: 14px;
+  }
+}

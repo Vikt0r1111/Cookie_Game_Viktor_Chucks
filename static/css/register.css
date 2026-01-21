@@ -1,0 +1,255 @@
+/* TODO: Reset default browser styles or use a CSS reset */
+
+/* Hint: Set margin and padding to 0 for body and all elements */
+
+/* TODO: Create styles for the body element */
+
+/* Hint: Set a background color/image, font-family, min-height for full viewport */
+
+body {
+  background: linear-gradient(135deg, #ffb72a 0%, #ffa500 100%);
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  color: #2c1810;
+}
+
+/* TODO: Style the registration container */
+
+/* Hint: Set max-width, padding, border-radius, box-shadow for a card-like look */
+.registration-container {
+  width: 400px;
+  max-width: 400px;
+  padding: 40px;
+  background: linear-gradient(135deg, #fff8dc 0%, #fffacd 100%);
+  border: 3px solid #daa520;
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgb(218 165 32 / 40%);
+}
+
+/* TODO: Style the heading inside the container */
+
+/* Hint: Set font-size, color, text-align, and margin-bottom */
+.registration-container h1 {
+  font-size: 32px;
+  color: #8b4513;
+  text-align: center;
+  margin-bottom: 30px;
+  text-shadow: 2px 2px 4px rgb(218 165 32 / 30%);
+}
+
+/* TODO: Style the form element */
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* TODO: Style the form-group class */
+
+/* Hint: Set margin-bottom, display as flex column, gap between label and input */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  gap: 5px;
+}
+
+/* TODO: Style label elements */
+
+/* Hint: Set font-weight, font-size, color */
+label {
+  font-weight: bold;
+  font-size: 16px;
+  color: burlywood;
+}
+
+/* TODO: Style input fields (text, email, password) */
+
+/* Hint: Set width, padding, border, border-radius, font-size */
+input[type='text'],
+input[type='email'],
+input[type='password'] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+
+  /* Hint: Add focus state with outline or border-color change */
+  outline: none;
+  border-color: black;
+  box-shadow: 0 0 5px rgb(155 171 90);
+}
+
+/* TODO: Style input focus state */
+
+/* Hint: Use outline, border-color, or box-shadow to show focus */
+input[type='text']:focus,
+input[type='email']:focus,
+input[type='password']:focus {
+  outline: none;
+  border-color: black;
+  box-shadow: 0 0 5px rgb(155 171 90);
+}
+
+/* TODO: Style checkbox input and its label */
+
+/* Hint: Use flex with align-items: center to align checkbox and label */
+.form-group.checkbox {
+  flex-direction: row;
+  align-items: center;
+}
+
+.form-group.checkbox input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+/* TODO: Style the submit button */
+
+/* Hint: Set padding, background-color, color, border, border-radius, cursor */
+
+/* Hint: Make it look clickable and match your game theme */
+button[type='submit'] {
+  position: relative;
+  padding: 14px 40px;
+  background-color: gold;
+  color: #2c1810;
+  border: 3px solid #daa520;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+button[type='submit']::after {
+  content: '';
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  background: linear-gradient(135deg, #fff8dc 0%, #fffacd 100%);
+  border-radius: 50%;
+  top: -8px;
+  right: 15px;
+}
+
+/* TODO: Style the button hover state */
+
+/* Hint: Change background-color to a darker shade on hover */
+button[type='submit']:hover {
+  background-color: #e6ac00;
+  box-shadow: 0 6px 16px rgb(0 0 0 / 25%);
+  transform: translateY(-3px);
+}
+
+button[type='submit']:active {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgb(0 0 0 / 20%);
+}
+
+/* TODO: Style the paragraph with login link */
+
+/* Hint: Set text-align, font-size, margin-top */
+.registration-container p {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 20px;
+}
+
+/* TODO: Style the anchor tag (login link) */
+
+/* Hint: Set color, text-decoration, add hover effect */
+.registration-container p a {
+  color: #daa520;
+  font-weight: 600;
+  transition: color 0.3s ease;
+  text-decoration: underline;
+}
+
+.registration-container p a:hover {
+  color: #b8860b;
+}
+
+/* TODO: Add error message styles */
+
+/* Hint: Create a class like .error-message with color red */
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+/* Hint: Or style the <small> element */
+small {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+/* ============================================ */
+
+/* BONUS: Responsive Design                    */
+
+/* ============================================ */
+
+/* TODO: Add media queries for mobile devices */
+
+/* Hint: Use @media (max-width: 600px) */
+
+/* Hint: Adjust padding, max-width, font-sizes for smaller screens */
+
+@media (width <= 600px) {
+  .registration-container {
+    width: 100%;
+    max-width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgb(0 0 0 / 10%);
+  }
+
+  .registration-container h1 {
+    font-size: 24px;
+    margin-bottom: 30px;
+  }
+
+  form {
+    gap: 12px;
+  }
+
+  .form-group {
+    margin-bottom: 10px;
+  }
+
+  label {
+    font-size: 14px;
+  }
+
+  input[type='text'],
+  input[type='email'],
+  input[type='password'] {
+    padding: 8px 10px;
+    font-size: 14px;
+  }
+
+  button[type='submit'] {
+    padding: 10px 20px;
+    font-size: 14px;
+    margin-top: 15px;
+  }
+
+  .registration-container p {
+    font-size: 12px;
+    margin-top: 15px;
+  }
+}

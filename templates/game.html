@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- TODO: Add a title for the game page -->
+    <title>Game - Cookie Clicker</title>
+    <link rel="stylesheet" href="static/css/game.css" />
+  </head>
+  <body>
+    <!-- TODO: Create a game container -->
+    <!-- Hint: Use a div with class "game-container" -->
+    <div class="game-container">
+      <!-- TODO: Create a header with game title and stats -->
+      <!-- Hint: Use a header element with class "game-header" -->
+      <header class="game-header">
+        <h1>Cookie Clicker</h1>
+        <!-- TODO: Display current cookie count -->
+        <!-- Hint: Use a div with class "stats" or similar -->
+        <div class="stats">
+          <p>Cookies: <span id="cookie-count">0</span></p>
+          <p>Per Second: <span id="cookies-per-second">0</span></p>
+        </div>
+        <!-- TODO: Add a back to home button or menu button -->
+        <!-- Hint: Use a button with class "back-btn" or "menu-btn" -->
+        <button class="back-btn" id="back-btn">Back to Home</button>
+      </header>
+
+      <!-- TODO: Create main game area -->
+      <!-- Hint: Use a main element or div with class "game-area" -->
+      <main class="game-area">
+        <!-- TODO: Create the big clickable cookie button -->
+        <!-- Hint: Use a button with id "cookie-btn" and large styling -->
+        <button class="cookie-btn" id="cookie-btn">
+          <!-- You can add a cookie emoji or text here -->
+          🍪
+        </button>
+
+        <!-- TODO: Display cookies per click -->
+        <!-- Hint: Add text showing how many cookies are earned per click -->
+        <p class="click-info">
+          Cookies per click: <span id="cookies-per-click">1</span>
+        </p>
+      </main>
+
+      <!-- TODO: Create a sidebar or shop area for upgrades -->
+      <!-- Hint: Use a div with class "shop" or "upgrades" -->
+      <aside class="shop">
+        <h2>Shop & Upgrades</h2>
+        <!-- TODO: Create a container for shop items -->
+        <!-- Hint: Use a div with class "shop-items" -->
+        <div class="shop-items" id="shop-items">
+          <!-- TODO: Add shop items dynamically via JavaScript -->
+          <!-- Hint: Each item should have name, cost, and description -->
+          <!-- Example structure: -->
+          <!-- <div class="shop-item">
+          <h3>Upgrade Name</h3>
+          <p>Description</p>
+          <p>Cost: <span class="cost">100</span> cookies</p>
+          <button class="buy-btn" data-item-id="0">Buy</button>
+        </div> -->
+        </div>
+      </aside>
+    </div>
+
+    <!-- TODO: Create a save/load system -->
+    <!-- Hint: Add buttons for saving and loading game progress -->
+    <div class="game-controls">
+      <button id="save-btn">Save Game</button>
+      <button id="load-btn">Load Game</button>
+    </div>
+
+    <script src="static/js/game.js"></script>
+  </body>
+</html>
