@@ -1,1 +1,1 @@
-from .db_utils import insert_user_data, check_user, get_user
+from .db_utils import insert_user_data, check_user, get_user, get_user_by_email
