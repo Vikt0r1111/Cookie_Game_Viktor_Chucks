@@ -135,3 +135,4 @@ passwordInput.addEventListener('input', function () {
 form.addEventListener('submit', function (event) {
   validateForm(event);
 });
+

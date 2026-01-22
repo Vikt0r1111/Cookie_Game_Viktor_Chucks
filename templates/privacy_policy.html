@@ -7,12 +7,24 @@
     <link rel="stylesheet" href="static/css/privacy_policy.css" />
   </head>
   <body>
-    <div class="privacy-policy-container">
-      <h1>Privacy Policy</h1>
-      <div>{{ privacy_policy }}</div>
+    <div class="terms-container">
+      <h1 id="privacy-policy-title">Privacy Policy</h1>
+
+      <div id="privacy-policy-content">{{ privacy_policy }}</div>
+
+      <div>
+        <button class="language-select" data-lang="en">EN</button>
+        <button class="language-select" data-lang="es">ES</button>
+        <button class="language-select" data-lang="fr">FR</button>
+        <button class="language-select" data-lang="de">DE</button>
+        <button class="language-select" data-lang="it">IT</button>
+      </div>
+
       <p>
         <a href="register.html">Back to Registration</a>
       </p>
+
+      <script src="static/js/privacy_policy.js"></script>
     </div>
   </body>
 </html>
