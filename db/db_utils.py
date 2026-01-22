@@ -1,4 +1,5 @@
 import sqlite3
+from config.upgrades import UPGRADES
 
 def insert_user_data(db_path, username, password, email):
     conn = sqlite3.connect(db_path)
@@ -9,6 +10,14 @@ def insert_user_data(db_path, username, password, email):
     VALUES (?, ?, ?)
     ''', (username, password, email))
 
+    user_id = cursor.lastrowid
+
+    for upgrade in UPGRADES:
+        cursor.execute(
+            "INSERT OR IGNORE INTO upgrades (name) VALUES (?)",
+            (upgrade,)
+        )
+    
     conn.commit()
     conn.close()
 

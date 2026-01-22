@@ -1,0 +1,15 @@
+UPGRADES = [
+    "cursors",
+    "grandmas",
+    "farms",
+    "mines",
+    "factories",
+    "banks",
+    "temples",
+    "wizards_towers",
+    "spaceships",
+    "alchemical_laboratories",
+    "portals",
+    "time_machines",
+    "antimatter_capacitors",
+]
