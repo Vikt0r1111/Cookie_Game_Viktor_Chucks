@@ -3,8 +3,8 @@ from flask.sessions import SecureCookieSessionInterface
 from flask import Flask, render_template, request, session, redirect
 from dotenv import load_dotenv
 
-from utils import data_chacher, translate_text
-from db import insert_user_data, check_user, get_user, get_user_by_email
+from utils import data_chacher, translate_text, add_user, get_user_data, make_click
+from db import insert_user_data, check_user, get_user, get_user_by_email, get_user_id, get_user_id_mails
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
@@ -13,16 +13,51 @@ app.secret_key = os.getenv("SECRET_KEY")
 def index():
     session_cookie = request.cookies.get("session")
     if not session_cookie:
-        return "No session cookie", 400
+        return redirect("/login")
     serializer = SecureCookieSessionInterface().get_signing_serializer(app)
     data = serializer.loads(session_cookie)
     email = data.get('email')
     print(email)
     return render_template("home.html")
 
-@app.route("/cookiet_game", methods=["GET", "POST"])
+@app.route("/cookie_game", methods=["GET", "POST"])
 def cookie_game():
+    if request.method == "POST":
+        session_cookie = request.cookies.get("session")
+        if not session_cookie:
+            return redirect("/login")
+        serializer = SecureCookieSessionInterface().get_signing_serializer(app)
+        data = serializer.loads(session_cookie)
+        email = data.get('email')
+        id = get_user_id_mails(email)
+        user_data = get_user_data(str(id))
+        return user_data
+    
     return render_template("game.html")
+
+@app.route("/click", methods=["POST"])
+def click():
+    if request.method == "POST":
+        session_cookie = request.cookies.get("session")
+        if not session_cookie:
+            return "No session cookie", 400
+        serializer = SecureCookieSessionInterface().get_signing_serializer(app)
+        data = serializer.loads(session_cookie)
+        email = data.get('email')
+        id = get_user_id_mails(email)
+        make_click(str(id))
+
+@app.route("/upgrade_", methods=["POST"])
+def upgrade_post():
+    if request.method == "POST":
+        session_cookie = request.cookies.get("session")
+        if not session_cookie:
+            return "No session cookie", 400
+        serializer = SecureCookieSessionInterface().get_signing_serializer(app)
+        data = serializer.loads(session_cookie)
+        email = data.get('email')
+        id = get_user_id_mails(email)
+
 
 @app.route("/registration", methods=["GET", "POST"])
 def registration():
@@ -34,7 +69,15 @@ def registration():
         hashed_password = data_chacher(password)
         print("DEBUG:", username, hashed_password, email)
         insert_user_data("db/db.sqlite", username, hashed_password, email)
-    
+        id = get_user_id(username)
+        add_user(id)
+        succes = True
+        if succes:
+            return redirect("/login")
+        else:
+            return redirect("/registration")
+
+
     return render_template("register.html")
 
 @app.route("/login", methods=["GET", "POST"])
@@ -83,4 +126,4 @@ def privacy_policy(language):
     )
 
 if __name__ == "__main__":
-    app.run(host="localhost", port="8000", debug=True)
+    app.run(host="127.0.0.1", port="8000", debug=True)

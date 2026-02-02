@@ -15,34 +15,7 @@ def init_db():
     )
     ''')
     conn.commit()
-
-
-    cursor.execute('''
-    CREATE TABLE IF NOT EXISTS upgrades (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL UNIQUE,
-        base_price TEXT NOT NULL UNIQUE,
-        cookie_pc TEXT NOT NULL UNIQUE,
-        multiplier TEXT NOT NULL UNIQUE,
-        quantity TEXT NOT NULL UNIQUE,
-        cofficient TEXT NOT NULL UNIQUE
-    )
-    ''')
-    conn.commit()
-
-    cursor.execute('''
-    CREATE TABLE IF NOT EXISTS user_upgrades (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL UNIQUE,
-        price TEXT NOT NULL UNIQUE,
-        cookie_pc TEXT NOT NULL UNIQUE,
-        multiplier TEXT NOT NULL UNIQUE,
-        quantity TEXT NOT NULL UNIQUE
-    )
-    ''')
-    conn.commit()
-
-    conn.commit()
     conn.close()
+    
 if __name__ == "__main__":
     init_db()

@@ -1,75 +1,87 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- TODO: Add a title for the game page -->
-    <title>Game - Cookie Clicker</title>
-    <link rel="stylesheet" href="static/css/game.css" />
-  </head>
-  <body>
-    <!-- TODO: Create a game container -->
-    <!-- Hint: Use a div with class "game-container" -->
-    <div class="game-container">
-      <!-- TODO: Create a header with game title and stats -->
-      <!-- Hint: Use a header element with class "game-header" -->
-      <header class="game-header">
-        <h1>Cookie Clicker</h1>
-        <!-- TODO: Display current cookie count -->
-        <!-- Hint: Use a div with class "stats" or similar -->
-        <div class="stats">
-          <p>Cookies: <span id="cookie-count">0</span></p>
-          <p>Per Second: <span id="cookies-per-second">0</span></p>
-        </div>
-        <!-- TODO: Add a back to home button or menu button -->
-        <!-- Hint: Use a button with class "back-btn" or "menu-btn" -->
-        <button class="back-btn" id="back-btn">Back to Home</button>
-      </header>
-
-      <!-- TODO: Create main game area -->
-      <!-- Hint: Use a main element or div with class "game-area" -->
-      <main class="game-area">
-        <!-- TODO: Create the big clickable cookie button -->
-        <!-- Hint: Use a button with id "cookie-btn" and large styling -->
-        <button class="cookie-btn" id="cookie-btn">
-          <!-- You can add a cookie emoji or text here -->
-          🍪
-        </button>
-
-        <!-- TODO: Display cookies per click -->
-        <!-- Hint: Add text showing how many cookies are earned per click -->
-        <p class="click-info">
-          Cookies per click: <span id="cookies-per-click">1</span>
-        </p>
-      </main>
-
-      <!-- TODO: Create a sidebar or shop area for upgrades -->
-      <!-- Hint: Use a div with class "shop" or "upgrades" -->
-      <aside class="shop">
-        <h2>Shop & Upgrades</h2>
-        <!-- TODO: Create a container for shop items -->
-        <!-- Hint: Use a div with class "shop-items" -->
-        <div class="shop-items" id="shop-items">
-          <!-- TODO: Add shop items dynamically via JavaScript -->
-          <!-- Hint: Each item should have name, cost, and description -->
-          <!-- Example structure: -->
-          <!-- <div class="shop-item">
-          <h3>Upgrade Name</h3>
-          <p>Description</p>
-          <p>Cost: <span class="cost">100</span> cookies</p>
-          <button class="buy-btn" data-item-id="0">Buy</button>
-        </div> -->
-        </div>
-      </aside>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cookie Clicker</title>
+<style>
+body { font-family: Arial,sans-serif; background-color: #fff5c2; margin:0; color:#5a3e1b; }
+.container { display:flex; flex-direction:column; gap:15px; padding:15px; }
+@media(min-width:768px){ .container{ flex-direction:row; } }
+.section{ background:#ffe49c; border-radius:15px; padding:20px; flex:1; min-width:200px; box-shadow:0 4px 10px rgba(0,0,0,0.15);}
+.left,.right{ flex:1; }
+.center{ flex:2; display:flex; flex-direction:column; gap:10px; }
+#cookie{ width:120px; height:120px; max-width:80%; background-image: url('/static/cookie.png'); background-size:cover; border-radius:50%; margin:0 auto; cursor:pointer; transition:transform 0.1s;}
+#cookie:active{ transform:scale(0.95); }
+#cookie-count{ text-align:center; margin-top:10px; font-size:1.5em; font-weight:bold;}
+.upgrade { display:flex; justify-content:space-between; padding:10px; border-radius:10px; background-color:#fff3b0; box-shadow:0 2px 4px rgba(0,0,0,0.1); font-size:1em; }
+.upgrade-name { font-weight:bold; }
+</style>
+</head>
+<body>
+<div class="container">
+    <!-- Левая секция: печенье -->
+    <div class="section left">
+        <div id="cookie"></div>
+        <div id="cookie-count">0 печений</div>
     </div>
 
-    <!-- TODO: Create a save/load system -->
-    <!-- Hint: Add buttons for saving and loading game progress -->
-    <div class="game-controls">
-      <button id="save-btn">Save Game</button>
-      <button id="load-btn">Load Game</button>
+    <!-- Центральная секция: апгрейды -->
+    <div class="section center">
+        <h2>Апгрейды</h2>
+        <div id="upgrades"></div>
     </div>
 
-    <script src="static/js/game.js"></script>
-  </body>
+    <!-- Правая секция: магазин -->
+    <div class="section right">
+        <h2>Магазин</h2>
+        <div id="shop"></div>
+    </div>
+</div>
+
+<script>
+const cookieElem = document.getElementById('cookie');
+const cookieCountElem = document.getElementById('cookie-count');
+const upgradesContainer = document.getElementById('upgrades');
+
+// Функция для обновления данных на странице
+async function updateUserData() {
+    try {
+        const res = await fetch('/cookie_game', { method: 'POST' });
+        const data = await res.json();
+
+        // Обновляем количество печений
+        cookieCountElem.textContent = data.cookies + " печений";
+
+        // Обновляем апгрейды, только с level > 0
+        upgradesContainer.innerHTML = '';
+        for (const key in data.upgrades) {
+            const u = data.upgrades[key];
+            if (u.level > 0) {
+                const div = document.createElement('div');
+                div.className = 'upgrade';
+                div.innerHTML = `<span class="upgrade-name">${key}</span> <span>Уровень: ${u.level}</span>`;
+                upgradesContainer.appendChild(div);
+            }
+        }
+
+    } catch (err) {
+        console.error("Ошибка при загрузке данных:", err);
+    }
+}
+
+cookieElem.addEventListener('click', async () => {
+    try {
+        await fetch('/click', { method: 'POST' });
+        await updateUserData();
+    } catch (err) {
+        console.error("Ошибка при клике:", err);
+    }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    updateUserData();
+});
+</script>
+</body>
 </html>

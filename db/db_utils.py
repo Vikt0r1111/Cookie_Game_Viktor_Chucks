@@ -1,5 +1,4 @@
 import sqlite3
-from config.upgrades import UPGRADES
 
 def insert_user_data(db_path, username, password, email):
     conn = sqlite3.connect(db_path)
@@ -9,14 +8,6 @@ def insert_user_data(db_path, username, password, email):
     INSERT INTO users (username, password, emails)
     VALUES (?, ?, ?)
     ''', (username, password, email))
-
-    user_id = cursor.lastrowid
-
-    for upgrade in UPGRADES:
-        cursor.execute(
-            "INSERT OR IGNORE INTO upgrades (name) VALUES (?)",
-            (upgrade,)
-        )
     
     conn.commit()
     conn.close()
@@ -56,5 +47,22 @@ def get_user_by_email(email):
     conn.close()
     return row
 
+def get_user_id_mails(emails):
+    conn = sqlite3.connect("db/db.sqlite")
+    cursor = conn.cursor()
 
-    
+    cursor.execute('SELECT id FROM users WHERE emails=?', (emails,))
+    row = cursor.fetchone()
+    conn.close()
+    return row[0] if row else None
+
+def get_user_id(username):
+    conn = sqlite3.connect("db/db.sqlite")
+    cursor = conn.cursor()
+
+    cursor.execute('SELECT id FROM users WHERE username=?', (username,))
+    row = cursor.fetchone()
+    conn.close()
+    return row[0] if row else None
+
+

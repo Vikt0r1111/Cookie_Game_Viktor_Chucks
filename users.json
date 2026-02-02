@@ -1,0 +1,185 @@
+{
+    "3": {
+        "userId": 3,
+        "cookies": 54,
+        "cookiesPerClick": 1,
+        "cookiesPerSecond": 0,
+        "upgrades": {
+            "doubleClick": {
+                "level": 0,
+                "multiplier": 1,
+                "affects": "click"
+            },
+            "grandma": {
+                "level": 1,
+                "multiplier": 1,
+                "affects": "passive",
+                "cookiesPerSecond": 16
+            },
+            "farm": {
+                "level": 0,
+                "multiplier": 1,
+                "affects": "passive",
+                "cookiesPerSecond": 0
+            },
+            "factory": {
+                "level": 0,
+                "multiplier": 1,
+                "affects": "passive",
+                "cookiesPerSecond": 0
+            },
+            "mine": {
+                "level": 0,
+                "multiplier": 1,
+                "affects": "passive",
+                "cookiesPerSecond": 0
+            },
+            "bank": {
+                "level": 0,
+                "multiplier": 1,
+                "affects": "passive",
+                "cookiesPerSecond": 0
+            },
+            "temple": {
+                "level": 0,
+                "multiplier": 1,
+                "affects": "passive",
+                "cookiesPerSecond": 0
+            },
+            "wizardTower": {
+                "level": 0,
+                "multiplier": 1,
+                "affects": "passive",
+                "cookiesPerSecond": 0
+            },
+            "shipment": {
+                "level": 0,
+                "multiplier": 1,
+                "affects": "passive",
+                "cookiesPerSecond": 0
+            }
+        }
+    },
+    "4": {
+        "userId": 4,
+        "cookies": 0,
+        "cookiesPerClick": 1,
+        "cookiesPerSecond": 0,
+        "upgrades": {
+            "doubleClick": {
+                "level": 0,
+                "multiplier": 1,
+                "affects": "click"
+            },
+            "grandma": {
+                "level": 0,
+                "multiplier": 1,
+                "affects": "passive",
+                "cookiesPerSecond": 0
+            },
+            "farm": {
+                "level": 0,
+                "multiplier": 1,
+                "affects": "passive",
+                "cookiesPerSecond": 0
+            },
+            "factory": {
+                "level": 0,
+                "multiplier": 1,
+                "affects": "passive",
+                "cookiesPerSecond": 0
+            },
+            "mine": {
+                "level": 0,
+                "multiplier": 1,
+                "affects": "passive",
+                "cookiesPerSecond": 0
+            },
+            "bank": {
+                "level": 0,
+                "multiplier": 1,
+                "affects": "passive",
+                "cookiesPerSecond": 0
+            },
+            "temple": {
+                "level": 0,
+                "multiplier": 1,
+                "affects": "passive",
+                "cookiesPerSecond": 0
+            },
+            "wizardTower": {
+                "level": 0,
+                "multiplier": 1,
+                "affects": "passive",
+                "cookiesPerSecond": 0
+            },
+            "shipment": {
+                "level": 0,
+                "multiplier": 1,
+                "affects": "passive",
+                "cookiesPerSecond": 0
+            }
+        }
+    },
+    "5": {
+        "userId": 5,
+        "cookies": 55,
+        "cookiesPerClick": 1,
+        "cookiesPerSecond": 0,
+        "upgrades": {
+            "doubleClick": {
+                "level": 1,
+                "multiplier": 1,
+                "affects": "click"
+            },
+            "grandma": {
+                "level": 0,
+                "multiplier": 1,
+                "affects": "passive",
+                "cookiesPerSecond": 0
+            },
+            "farm": {
+                "level": 0,
+                "multiplier": 1,
+                "affects": "passive",
+                "cookiesPerSecond": 0
+            },
+            "factory": {
+                "level": 0,
+                "multiplier": 1,
+                "affects": "passive",
+                "cookiesPerSecond": 0
+            },
+            "mine": {
+                "level": 0,
+                "multiplier": 1,
+                "affects": "passive",
+                "cookiesPerSecond": 0
+            },
+            "bank": {
+                "level": 0,
+                "multiplier": 1,
+                "affects": "passive",
+                "cookiesPerSecond": 0
+            },
+            "temple": {
+                "level": 0,
+                "multiplier": 1,
+                "affects": "passive",
+                "cookiesPerSecond": 0
+            },
+            "wizardTower": {
+                "level": 0,
+                "multiplier": 1,
+                "affects": "passive",
+                "cookiesPerSecond": 0
+            },
+            "shipment": {
+                "level": 0,
+                "multiplier": 1,
+                "affects": "passive",
+                "cookiesPerSecond": 0
+            }
+        }
+    }
+}
