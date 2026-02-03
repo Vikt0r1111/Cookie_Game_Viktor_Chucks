@@ -1,87 +1,327 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cookie Clicker</title>
+
 <style>
-body { font-family: Arial,sans-serif; background-color: #fff5c2; margin:0; color:#5a3e1b; }
-.container { display:flex; flex-direction:column; gap:15px; padding:15px; }
-@media(min-width:768px){ .container{ flex-direction:row; } }
-.section{ background:#ffe49c; border-radius:15px; padding:20px; flex:1; min-width:200px; box-shadow:0 4px 10px rgba(0,0,0,0.15);}
-.left,.right{ flex:1; }
-.center{ flex:2; display:flex; flex-direction:column; gap:10px; }
-#cookie{ width:120px; height:120px; max-width:80%; background-image: url('/static/cookie.png'); background-size:cover; border-radius:50%; margin:0 auto; cursor:pointer; transition:transform 0.1s;}
-#cookie:active{ transform:scale(0.95); }
-#cookie-count{ text-align:center; margin-top:10px; font-size:1.5em; font-weight:bold;}
-.upgrade { display:flex; justify-content:space-between; padding:10px; border-radius:10px; background-color:#fff3b0; box-shadow:0 2px 4px rgba(0,0,0,0.1); font-size:1em; }
-.upgrade-name { font-weight:bold; }
+/* BODY */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #fff3b0;
+    color: #5a3e1b;
+    position: relative;
+}
+
+/* ACCOUNT ICON & POPUP */
+.account-wrapper {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+}
+
+#account-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid #ffcc4d;
+    transition: transform 0.2s;
+}
+
+#account-icon:hover {
+    transform: scale(1.1);
+}
+
+/* POPUP */
+.account-popup {
+    display: none; /* скрыт по умолчанию */
+    position: absolute;
+    top: 50px;
+    right: 0;
+    width: 150px;
+    background: #fff8d6;
+    border: 2px solid #daa520;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.account-popup .popup-username {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.account-popup button {
+    width: 100%;
+    padding: 6px 0;
+    border: none;
+    border-radius: 8px;
+    background: #ff8c00;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.account-popup button:hover {
+    background: #e07a00;
+}
+
+/* MAIN CONTAINER */
+.container {
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+    margin-top: 70px; /* чтобы не перекрывалась иконкой аккаунта */
+}
+
+/* SECTIONS */
+.section {
+    background: #ffe49c;
+    border-radius: 0;
+    padding: 20px;
+    flex: 1;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.center { flex: 2; }
+
+/* COOKIE */
+#cookie {
+    width: 150px;
+    height: 150px;
+    background-image: url("/static/cookie.png");
+    background-size: cover;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+#cookie-count {
+    text-align: center;
+    font-size: 26px;
+    margin-top: 10px;
+}
+
+/* UPGRADES / SHOP ITEMS */
+.upgrade, .shop-item, .levelup-item {
+    background: #fff8d6;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+button {
+    width: 100%;
+    background: #ffcc4d;
+    border: none;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button:disabled {
+    background: #e0b84a;
+    cursor: not-allowed;
+}
 </style>
 </head>
+
 <body>
+
+<!-- ACCOUNT ICON & POPUP -->
+<div class="account-wrapper">
+    <img src="/static/avatar.png" alt="Avatar" id="account-icon">
+    <div class="account-popup" id="account-popup">
+        <div class="popup-username" id="popup-username">{{ username }}</div>
+        <button id="popup-logout-btn">Logout</button>
+    </div>
+</div>
+
 <div class="container">
-    <!-- Левая секция: печенье -->
-    <div class="section left">
+    <!-- LEFT: COOKIE -->
+    <div class="section">
         <div id="cookie"></div>
-        <div id="cookie-count">0 печений</div>
+        <div id="cookie-count">0 cookies</div>
     </div>
 
-    <!-- Центральная секция: апгрейды -->
+    <!-- CENTER: ACTIVE UPGRADES -->
     <div class="section center">
-        <h2>Апгрейды</h2>
+        <h2>Active Upgrades</h2>
         <div id="upgrades"></div>
     </div>
 
-    <!-- Правая секция: магазин -->
-    <div class="section right">
-        <h2>Магазин</h2>
+    <!-- RIGHT: SHOPS -->
+    <div class="section">
+        <h2>Level Up Shop</h2>
+        <div id="levelup-shop"></div>
+
+        <h2>Main Shop</h2>
         <div id="shop"></div>
     </div>
 </div>
 
 <script>
-const cookieElem = document.getElementById('cookie');
-const cookieCountElem = document.getElementById('cookie-count');
-const upgradesContainer = document.getElementById('upgrades');
+const cookieEl = document.getElementById("cookie");
+const cookieCountEl = document.getElementById("cookie-count");
+const upgradesEl = document.getElementById("upgrades");
+const shopEl = document.getElementById("shop");
+const levelupShopEl = document.getElementById("levelup-shop");
 
-// Функция для обновления данных на странице
-async function updateUserData() {
-    try {
-        const res = await fetch('/cookie_game', { method: 'POST' });
-        const data = await res.json();
+const accountIcon = document.getElementById("account-icon");
+const accountPopup = document.getElementById("account-popup");
+const popupUsername = document.getElementById("popup-username");
+const popupLogoutBtn = document.getElementById("popup-logout-btn");
 
-        // Обновляем количество печений
-        cookieCountElem.textContent = data.cookies + " печений";
+let userData = null;
 
-        // Обновляем апгрейды, только с level > 0
-        upgradesContainer.innerHTML = '';
-        for (const key in data.upgrades) {
-            const u = data.upgrades[key];
-            if (u.level > 0) {
-                const div = document.createElement('div');
-                div.className = 'upgrade';
-                div.innerHTML = `<span class="upgrade-name">${key}</span> <span>Уровень: ${u.level}</span>`;
-                upgradesContainer.appendChild(div);
+// fixed upgrade order
+const upgradeOrder = [
+    "doubleClick",
+    "grandma",
+    "farm",
+    "factory",
+    "mine",
+    "bank",
+    "temple",
+    "wizardTower",
+    "shipment"
+];
+
+/* ---------- LOAD GAME ---------- */
+async function loadGame() {
+    const res = await fetch("/cookie_game", { method: "POST" });
+    userData = await res.json();
+
+    // Устанавливаем username в popup
+    if(userData.username) {
+        popupUsername.textContent = userData.username;
+    }
+
+    render();
+}
+
+/* ---------- RENDER ---------- */
+function render() {
+    const totalCps = Math.round(userData.cookiesPerSecond || 0);
+    cookieCountEl.textContent = `${Math.round(userData.cookies)} cookies (${totalCps} CPS)`;
+
+    // ACTIVE UPGRADES
+    upgradesEl.innerHTML = "";
+    upgradeOrder.forEach(name => {
+        const up = userData.upgrades[name];
+        if (up.quantity > 0) {
+            let cpsText = "";
+            if (name !== "doubleClick") {
+                cpsText = `CPS: ${Math.round((up.cookiesPerSecond || 0) * up.level)}`;
             }
+            upgradesEl.innerHTML += `
+                <div class="upgrade">
+                    <b>${name}</b><br>
+                    Quantity: ${up.quantity}<br>
+                    Level: ${up.level}${cpsText ? `<br>${cpsText}` : ""}
+                </div>
+            `;
+        }
+    });
+
+    // LEVEL UP SHOP
+    levelupShopEl.innerHTML = "";
+    upgradeOrder.forEach(name => {
+        const up = userData.upgrades[name];
+        if (up.quantity > 0) {
+            const levelupPrice = Math.round(up.levelup_price || up.price);
+            levelupShopEl.innerHTML += `
+                <div class="levelup-item">
+                    <b>${name}</b><br>
+                    Current Level: ${up.level}<br>
+                    Level Up Price: <b>${levelupPrice}</b>
+                    <button onclick="buyLevelUp('${name}')">Level Up</button>
+                </div>
+            `;
+        }
+    });
+
+    // MAIN SHOP
+    shopEl.innerHTML = "";
+    for (let i = 0; i < upgradeOrder.length; i++) {
+        const name = upgradeOrder[i];
+        const up = userData.upgrades[name];
+
+        if (i > 0) {
+            const prev = userData.upgrades[upgradeOrder[i - 1]];
+            if (prev.quantity === 0) break;
         }
 
-    } catch (err) {
-        console.error("Ошибка при загрузке данных:", err);
+        let cpsShopText = "";
+        if (name !== "doubleClick") {
+            cpsShopText = `CPS: ${Math.round(up.cookiesPerSecond || 0)}`;
+        }
+
+        shopEl.innerHTML += `
+            <div class="shop-item">
+                <b>${name}</b><br>
+                Price: <b>${Math.round(up.price)}</b><br>
+                Bought: ${up.quantity}${cpsShopText ? `<br>${cpsShopText}` : ""}
+                <button onclick="buyUpgrade('${name}')">Buy</button>
+            </div>
+        `;
     }
 }
 
-cookieElem.addEventListener('click', async () => {
-    try {
-        await fetch('/click', { method: 'POST' });
-        await updateUserData();
-    } catch (err) {
-        console.error("Ошибка при клике:", err);
+/* ---------- CLICK COOKIE ---------- */
+cookieEl.addEventListener("click", async () => {
+    await fetch("/click", { method: "POST" });
+    await loadGame();
+});
+
+/* ---------- BUY UPGRADE ---------- */
+async function buyUpgrade(name) {
+    const form = new FormData();
+    form.append("upgrade_name", name);
+    await fetch("/buy_upgrades", { method: "POST", body: form });
+    await loadGame();
+}
+
+/* ---------- BUY LEVEL UP ---------- */
+async function buyLevelUp(name) {
+    const form = new FormData();
+    form.append("upgrade_name", name);
+    await fetch("/buy_levelup", { method: "POST", body: form });
+    await loadGame();
+}
+
+/* ---------- PASSIVE CPS ---------- */
+setInterval(async () => {
+    await fetch("/upgrade_click", { method: "POST" });
+    await loadGame();
+}, 1000);
+
+/* ---------- ACCOUNT POPUP TOGGLE ---------- */
+accountIcon.addEventListener("click", () => {
+    accountPopup.style.display = accountPopup.style.display === "block" ? "none" : "block";
+});
+
+// Закрытие при клике вне popup
+document.addEventListener("click", (e) => {
+    if (!accountIcon.contains(e.target) && !accountPopup.contains(e.target)) {
+        accountPopup.style.display = "none";
     }
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-    updateUserData();
+/* ---------- LOGOUT ---------- */
+popupLogoutBtn.addEventListener("click", async () => {
+    await fetch("/logout", { method: "POST" });
+    window.location.href = "/login";
 });
+
+/* ---------- START ---------- */
+document.addEventListener("DOMContentLoaded", loadGame);
 </script>
+
 </body>
 </html>

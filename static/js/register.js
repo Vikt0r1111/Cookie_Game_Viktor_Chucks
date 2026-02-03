@@ -14,6 +14,13 @@ const passwordErrorMessage = document.getElementById('passwordError');
 /* Validate Email Function */
 /* ============================================ */
 
+function setlanguage() {
+  const userlang = navigator.language
+  termsbutton = document.getElementById("termslink").href="/privacy-policy/" + userlang
+    
+}
+setlanguage()
+
 function validateEmail(email) {
   // Simple email validation regex
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

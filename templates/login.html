@@ -9,7 +9,10 @@
   </head>
   <body>
     <div class="login-container">
-      <h1>Login</h1>
+    <h1>Login</h1>
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
 
       <form id="login-form" method="POST">
         <div class="form-group">
@@ -27,7 +30,7 @@
         <button type="submit">Login</button>
       </form>
 
-      <p>Don't have an account? <a href="/register">Register here</a></p>
+      <p>Don't have an account? <a href="/registration">Register here</a></p>
     </div>
 
     <script src="static/js/login.js"></script>

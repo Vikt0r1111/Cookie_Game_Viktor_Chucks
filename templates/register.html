@@ -14,6 +14,9 @@
 
       <form method="POST" id="registrationForm">
         <div class="form-group">
+        {% if error %}
+        <p style="color: red;">{{ error }}</p>
+        {% endif %}
           <label for="username">username</label>
 
           <input
@@ -69,8 +72,8 @@
         TODO:met behulp van js set in de plaats van <language> het taal van browser
         <div class="form-group checkbox">
           <input type="checkbox" name="terms" id="terms" required />
-          <label for="terms">
-            I agree to the <a href="/privacy-policy/<language>">Terms & Conditions</a>
+          <label for="terms",>
+            I agree to the <a href="" id="termslink">Terms & Conditions</a>
           </label>
         </div>
 

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Privacy Policy</title>
-    <link rel="stylesheet" href="static/css/privacy_policy.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/privacy_policy.css') }}" />
   </head>
   <body>
     <div class="terms-container">
@@ -13,15 +13,14 @@
       <div id="privacy-policy-content">{{ privacy_policy }}</div>
 
       <div>
-        <button class="language-select" data-lang="en">EN</button>
-        <button class="language-select" data-lang="es">ES</button>
-        <button class="language-select" data-lang="fr">FR</button>
-        <button class="language-select" data-lang="de">DE</button>
-        <button class="language-select" data-lang="it">IT</button>
+        <button class="language-select" data-lang="es" onclick="window.location.href='/privacy-policy/en'">EN</button>
+        <button class="language-select" data-lang="fr" onclick="window.location.href='/privacy-policy/fr'">FR</button>
+        <button class="language-select" data-lang="de" onclick="window.location.href='/privacy-policy/de'">DE</button>
+        <button class="language-select" data-lang="it" onclick="window.location.href='/privacy-policy/it'">IT</button>
       </div>
 
       <p>
-        <a href="register.html">Back to Registration</a>
+        <a href="/registration">Back to Registration</a>
       </p>
 
       <script src="static/js/privacy_policy.js"></script>

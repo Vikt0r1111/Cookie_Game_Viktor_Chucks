@@ -1,9 +1,8 @@
 import os
 from flask.sessions import SecureCookieSessionInterface
 from flask import Flask, render_template, request, session, redirect
-from dotenv import load_dotenv
 
-from utils import data_chacher, translate_text, add_user, get_user_data, make_click
+from utils import data_chacher, translate_text, add_user, get_user_data, make_click, update_click, buy_upgrade, buy_levelup
 from db import insert_user_data, check_user, get_user, get_user_by_email, get_user_id, get_user_id_mails
 
 app = Flask(__name__)
@@ -17,23 +16,32 @@ def index():
     serializer = SecureCookieSessionInterface().get_signing_serializer(app)
     data = serializer.loads(session_cookie)
     email = data.get('email')
-    print(email)
-    return render_template("home.html")
+    username = get_user_by_email(email)
+    usernamef = username[0]
+    return render_template("home.html", username=usernamef)
 
 @app.route("/cookie_game", methods=["GET", "POST"])
-def cookie_game():
+def game():
+    email = session.get("email")
+    if not email:
+        session.clear()
+        return redirect("/login")
+
+    user_id = get_user_id_mails(email)
+    if not user_id:
+        session.clear()
+        return redirect("/login")
+
     if request.method == "POST":
-        session_cookie = request.cookies.get("session")
-        if not session_cookie:
+        user_data = get_user_data(str(user_id))
+        if not user_data:
+            session.clear()
             return redirect("/login")
-        serializer = SecureCookieSessionInterface().get_signing_serializer(app)
-        data = serializer.loads(session_cookie)
-        email = data.get('email')
-        id = get_user_id_mails(email)
-        user_data = get_user_data(str(id))
+
         return user_data
-    
-    return render_template("game.html")
+    username = get_user_by_email(email)
+
+    return render_template("game.html", username=username[0])
 
 @app.route("/click", methods=["POST"])
 def click():
@@ -46,8 +54,11 @@ def click():
         email = data.get('email')
         id = get_user_id_mails(email)
         make_click(str(id))
+    return {
+        "status": "ok"
+    }, 200
 
-@app.route("/upgrade_", methods=["POST"])
+@app.route("/upgrade_click", methods=["POST"])
 def upgrade_post():
     if request.method == "POST":
         session_cookie = request.cookies.get("session")
@@ -57,7 +68,42 @@ def upgrade_post():
         data = serializer.loads(session_cookie)
         email = data.get('email')
         id = get_user_id_mails(email)
+        update_click(id)
+        return {
+        "status": "ok"
+    }, 200
 
+@app.route("/buy_upgrades", methods=["POST"])
+def buy_upgrades():
+    if request.method == "POST":
+        upgrade_name = request.form.get("upgrade_name")
+        session_cookie = request.cookies.get("session")
+        if not session_cookie:
+            return "No session cookie", 400
+        serializer = SecureCookieSessionInterface().get_signing_serializer(app)
+        data = serializer.loads(session_cookie)
+        email = data.get('email')
+        id = get_user_id_mails(email)
+        buy_upgrade(upgrade_name, str(id))
+        return {
+            "status": "ok"
+        }, 200
+    
+@app.route("/buy_levelup", methods=["POST"])
+def buy_levelups():
+    if request.method == "POST":
+        upgrade_name = request.form.get("upgrade_name")
+        session_cookie = request.cookies.get("session")
+        if not session_cookie:
+            return "No session cookie", 400
+        serializer = SecureCookieSessionInterface().get_signing_serializer(app)
+        data = serializer.loads(session_cookie)
+        email = data.get('email')
+        id = get_user_id_mails(email)
+        buy_levelup(id, upgrade_name)
+        return {
+            "status": "ok"
+        }, 200
 
 @app.route("/registration", methods=["GET", "POST"])
 def registration():
@@ -68,7 +114,11 @@ def registration():
 
         hashed_password = data_chacher(password)
         print("DEBUG:", username, hashed_password, email)
-        insert_user_data("db/db.sqlite", username, hashed_password, email)
+        try:
+            insert_user_data("db/db.sqlite", username, hashed_password, email)
+        except Exception as e:
+            error = "accaunt with this email or username already exists"
+            return render_template("register.html", error=error)
         id = get_user_id(username)
         add_user(id)
         succes = True
@@ -82,6 +132,7 @@ def registration():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    error = ""
     if request.method == "POST":
         email = request.form.get("email")
         password = request.form.get("password")
@@ -93,10 +144,15 @@ def login():
             session["email"] = email
             return redirect("/")
         else:
-            return "incorect login of password", 401
+            error = "Email or password is incorrect"
 
-        
-    return render_template("login.html")
+    return render_template("login.html", error=error)
+
+@app.route("/logout", methods=["GET"])
+def logout():
+    session.clear()
+    return redirect("/login")
+
 
 @app.route("/admin_panel/", methods=["GET", "POST"])
 def admin_panel():

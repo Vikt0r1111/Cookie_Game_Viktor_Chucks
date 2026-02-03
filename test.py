@@ -1,3 +1,3 @@
-from utils import get_user_data, make_click, update_click
+from utils import get_user_data, make_click, update_click, buy_levelup
 
-update_click("3")
+buy_levelup("7" , "grandma")
