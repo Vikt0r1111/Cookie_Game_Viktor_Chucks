@@ -3,21 +3,28 @@ body {
   font-family: Arial, sans-serif;
   min-height: 100vh;
   margin: 0;
-  padding: 0;
+  padding: 15px;
   color: #2c1810;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+/* Убираем outline при фокусе */
+*:focus,
+*:active {
+  outline: none !important;
+}
+
+/* ====== TERMS CONTAINER ====== */
 .terms-container {
-  width: 700px;
-  max-width: 90%;
+  width: 100%;
+  max-width: 700px;
   padding: 40px;
   background: linear-gradient(135deg, #fff8dc 0%, #fffacd 100%);
   border: 3px solid #daa520;
   border-radius: 15px;
-  box-shadow: 0 8px 32px rgb(218 165 32 / 40%);
+  box-shadow: 0 8px 32px rgba(218, 165, 32, 0.4);
 }
 
 #privacy-policy-title {
@@ -25,9 +32,10 @@ body {
   color: #8b4513;
   text-align: center;
   margin-bottom: 30px;
-  text-shadow: 2px 2px 4px rgb(218 165 32 / 30%);
+  text-shadow: 2px 2px 4px rgba(218, 165, 32, 0.3);
 }
 
+/* ====== CONTENT ====== */
 #privacy-policy-content {
   font-size: 16px;
   line-height: 1.7;
@@ -38,6 +46,47 @@ body {
   padding-right: 10px;
 }
 
+/* Стилизация скроллбара */
+#privacy-policy-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+#privacy-policy-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+#privacy-policy-content::-webkit-scrollbar-thumb {
+  background: #daa520;
+  border-radius: 10px;
+}
+
+#privacy-policy-content::-webkit-scrollbar-thumb:hover {
+  background: #b8860b;
+}
+
+/* Отступы для параграфов и заголовков внутри контента */
+#privacy-policy-content h2 {
+  margin-top: 25px;
+  margin-bottom: 15px;
+  color: #8b4513;
+}
+
+#privacy-policy-content p {
+  margin-bottom: 15px;
+}
+
+#privacy-policy-content ul,
+#privacy-policy-content ol {
+  margin-bottom: 15px;
+  margin-left: 20px;
+}
+
+#privacy-policy-content li {
+  margin-bottom: 8px;
+}
+
+/* ====== LANGUAGE SELECT ====== */
 .language-select {
   padding: 10px 20px;
   margin: 5px;
@@ -47,19 +96,21 @@ body {
   cursor: pointer;
   font-weight: bold;
   transition: all 0.3s ease;
+  outline: none;
 }
 
 .language-select:hover {
   background-color: #e6ac00;
-  box-shadow: 0 4px 12px rgb(0 0 0 / 20%);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   transform: translateY(-2px);
 }
 
 .language-select:active {
   transform: translateY(0);
-  box-shadow: 0 2px 6px rgb(0 0 0 / 20%);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
+/* ====== LINKS ====== */
 .terms-container a {
   color: #8b4513;
   text-decoration: none;
@@ -71,11 +122,48 @@ body {
   text-decoration: underline;
 }
 
-/* адаптив для мобильных */
-@media (max-width: 600px) {
+/* ====== RESPONSIVE ====== */
+
+/* Планшеты (до 768px) */
+@media (max-width: 768px) {
+  body {
+    padding: 12px;
+  }
+
   .terms-container {
-    width: 90%;
+    max-width: 100%;
+    padding: 30px;
+  }
+
+  #privacy-policy-title {
+    font-size: 28px;
+    margin-bottom: 25px;
+  }
+
+  #privacy-policy-content {
+    font-size: 15px;
+    line-height: 1.6;
+    max-height: 55vh;
+    padding-right: 8px;
+  }
+
+  .language-select {
+    padding: 9px 18px;
+    font-size: 15px;
+  }
+}
+
+/* Мобильные устройства (до 600px) */
+@media (max-width: 600px) {
+  body {
+    padding: 10px;
+  }
+
+  .terms-container {
+    width: 100%;
+    max-width: 100%;
     padding: 20px;
+    border-radius: 10px;
   }
 
   #privacy-policy-title {
@@ -85,10 +173,154 @@ body {
 
   #privacy-policy-content {
     font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    max-height: 50vh;
+    padding-right: 6px;
+  }
+
+  #privacy-policy-content h2 {
+    margin-top: 20px;
+    margin-bottom: 12px;
+    font-size: 18px;
+  }
+
+  #privacy-policy-content p {
+    margin-bottom: 12px;
+  }
+
+  #privacy-policy-content ul,
+  #privacy-policy-content ol {
+    margin-bottom: 12px;
+    margin-left: 15px;
+  }
+
+  #privacy-policy-content li {
+    margin-bottom: 6px;
   }
 
   .language-select {
     padding: 8px 15px;
     font-size: 14px;
+    margin: 4px;
+  }
+}
+
+/* Очень маленькие мобильные (до 400px) */
+@media (max-width: 400px) {
+  body {
+    padding: 8px;
+  }
+
+  .terms-container {
+    padding: 15px;
+    border-radius: 8px;
+  }
+
+  #privacy-policy-title {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  #privacy-policy-content {
+    font-size: 13px;
+    line-height: 1.4;
+    margin-bottom: 15px;
+    max-height: 45vh;
+    padding-right: 5px;
+  }
+
+  #privacy-policy-content h2 {
+    margin-top: 15px;
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+
+  #privacy-policy-content p {
+    margin-bottom: 10px;
+  }
+
+  #privacy-policy-content ul,
+  #privacy-policy-content ol {
+    margin-bottom: 10px;
+    margin-left: 12px;
+  }
+
+  #privacy-policy-content li {
+    margin-bottom: 5px;
+  }
+
+  .language-select {
+    padding: 7px 12px;
+    font-size: 13px;
+    margin: 3px;
+    border-radius: 40px;
+  }
+
+  #privacy-policy-content::-webkit-scrollbar {
+    width: 6px;
+  }
+}
+
+/* Альбомная ориентация на мобильных */
+@media (max-height: 500px) and (orientation: landscape) {
+  body {
+    align-items: flex-start;
+    padding: 10px;
+  }
+
+  .terms-container {
+    margin: 10px auto;
+    padding: 20px;
+  }
+
+  #privacy-policy-title {
+    font-size: 22px;
+    margin-bottom: 15px;
+  }
+
+  #privacy-policy-content {
+    font-size: 13px;
+    max-height: 40vh;
+    margin-bottom: 15px;
+  }
+
+  #privacy-policy-content h2 {
+    margin-top: 12px;
+    margin-bottom: 8px;
+  }
+
+  .language-select {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+}
+
+/* Очень маленькая высота экрана */
+@media (max-height: 400px) {
+  .terms-container {
+    padding: 15px;
+  }
+
+  #privacy-policy-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  #privacy-policy-content {
+    font-size: 12px;
+    max-height: 35vh;
+    margin-bottom: 10px;
+  }
+
+  #privacy-policy-content h2 {
+    margin-top: 10px;
+    margin-bottom: 6px;
+    font-size: 14px;
+  }
+
+  .language-select {
+    padding: 5px 10px;
+    font-size: 12px;
   }
 }

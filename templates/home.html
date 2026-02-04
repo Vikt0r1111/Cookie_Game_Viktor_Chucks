@@ -3,41 +3,36 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- TODO: Add a title for the home page -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - Cookie Clicker</title>
     <link rel="stylesheet" href="static/css/home.css" />
   </head>
   <body>
     
-    <!-- TODO: Create a home container -->
-    <!-- Hint: Use a div with class "home-container" -->
+    <!-- ACCOUNT ICON & POPUP -->
+    <div class="account-wrapper">
+        <img src="/static/avatar.png" alt="Avatar" id="account-icon">
+        <div class="account-popup" id="account-popup">
+            <div class="popup-username" id="popup-username">{{ username }}</div>
+            <button id="popup-logout-btn" class="btn-logout">Logout</button>
+        </div>
+    </div>
+
     <div class="home-container">
-      <!-- TODO: Add a welcome heading -->
-      <!-- Hint: Use h1 with greeting message -->
       <h1>Welcome to Cookie Clicker</h1>
 
-      <!-- TODO: Add user info section -->
-      <!-- Hint: Display current user's name/email -->
       <div class="user-info">
         <p id="user-greeting">Welcome, {{ username }}!</p>
       </div>
 
-      <!-- TODO: Create a button container for options -->
-      <!-- Hint: Use a div with class "button-container" -->
       <div class="button-container">
-        <!-- TODO: Add "New Game" button -->
-        <!-- Hint: Use a button or anchor tag with class "btn btn-new-game" -->
         <button class="btn btn-new-game" id="new-game-btn" onclick="window.location.href='/cookie_game'">
           Start Game
         </button>
 
-        <!-- TODO: Add "Register New Account" button/link -->
-        <!-- Hint: Use a button or anchor tag with class "btn btn-register" -->
-        <a href="/registration" class="btn btn-register"
-          >Register New Account</a
-        >
+        <a href="/registration" class="btn btn-register">Register New Account</a>
       </div>
-      
+    </div>
     <script src="static/js/home.js"></script>
   </body>
 </html>

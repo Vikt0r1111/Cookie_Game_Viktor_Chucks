@@ -15,11 +15,11 @@ const passwordErrorMessage = document.getElementById('passwordError');
 /* ============================================ */
 
 function setlanguage() {
-  const userlang = navigator.language
-  termsbutton = document.getElementById("termslink").href="/privacy-policy/" + userlang
-    
+  const userlang = navigator.language.slice(0, 2).toLowerCase();
+  const termsbutton = document.getElementById("termslink");
+  termsbutton.href = "/privacy-policy/" + userlang;
 }
-setlanguage()
+setlanguage();
 
 function validateEmail(email) {
   // Simple email validation regex

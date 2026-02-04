@@ -63,3 +63,21 @@
 
 /* TODO: Implement auto-logout after inactivity */
 /* Hint: Track user activity and logout after certain timeout */
+      // Popup logic
+      const accountIcon = document.getElementById("account-icon");
+      const accountPopup = document.getElementById("account-popup");
+      accountIcon.onclick = () => {
+          accountPopup.style.display = accountPopup.style.display === "block" ? "none" : "block";
+      };
+
+      document.addEventListener("click", (e) => {
+          if (!accountIcon.contains(e.target) && !accountPopup.contains(e.target)) {
+              accountPopup.style.display = "none";
+          }
+      });
+
+      document.getElementById('popup-logout-btn').addEventListener('click', async () => {
+          const response = await fetch('/logout', { method: 'POST' });
+
+          window.location.href = '/login';
+      });

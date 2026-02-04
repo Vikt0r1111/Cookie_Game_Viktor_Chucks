@@ -1,302 +1,131 @@
-/* ============================================ */
-/* GAME.JS - Cookie Clicker Game JavaScript    */
-/* ============================================ */
+const cookieEl = document.getElementById("cookie");
+const cookieCountEl = document.getElementById("cookie-count");
+const upgradesEl = document.getElementById("upgrades");
+const shopEl = document.getElementById("shop");
+const levelupShopEl = document.getElementById("levelup-shop");
+const cookieContainer = document.getElementById("cookie-container");
 
-/* TODO: Initialize game state object */
-/* Hint: Create an object to store game data like cookies, upgrades, etc. */
-let gameState = {
-  cookies: 0,
-  cookiesPerClick: 1,
-  cookiesPerSecond: 0,
-  upgrades: [],
-};
+let userData = null;
+const maxFallingCookies = 15;
+let currentFallingCount = 0;
 
-/* TODO: Get necessary DOM elements */
-/* Hint: Use document.getElementById() for buttons and displays */
-const cookieButton = document.getElementById('cookieButton');
-const cookieCountDisplay = document.getElementById('cookieCount');
-const cpsDisplay = document.getElementById('cpsDisplay');
-const cpcDisplay = document.getElementById('cpcDisplay');
-const shopContainer = document.getElementById('shopContainer');
-const saveButton = document.getElementById('saveButton');
-const loadButton = document.getElementById('loadButton');
-const backButton = document.getElementById('backButton');
+const upgradeOrder = ["doubleClick", "grandma", "farm", "factory", "mine", "bank", "temple", "wizardTower", "shipment"];
 
-/* ============================================ */
-/* Initialize Game on Page Load */
-/* ============================================ */
+document.getElementById('popup-logout-btn').addEventListener('click', async () => {
+  const response = await fetch('/logout', { method: 'POST' });
 
-/* TODO: Initialize the game on page load */
-/* Hint: Load saved game or start fresh */
-window.onload = function () {
-  /* TODO: Check if a saved game exists */
-  /* Hint: Check localStorage for gameState */
-  const savedGame = localStorage.getItem('gameState');
-  if (savedGame) {
-    /* TODO: Load the saved game state */
-    /* Hint: Parse the JSON and update gameState */
-    gameState = JSON.parse(savedGame);
-  }
-
-  /* TODO: Generate shop items */
-  /* Hint: Call a function to create available upgrades */
-  generateShopItems();
-
-  /* TODO: Start the passive income loop (cookies per second) */
-  /* Hint: Use setInterval() to increment cookies over time */
-  startPassiveIncome();
-
-  /* TODO: Create a function to update the display */
-  /* Hint: Update all DOM elements that show game stats */
-  updateDisplay();
-};
-
-/* ============================================ */
-/* Cookie Click Event Handler */
-/* ============================================ */
-
-/* TODO: Add event listener to cookie button */
-/* Hint: On click, add cookies to gameState.cookies */
-cookieButton.addEventListener('click', function () {
-  /* TODO: Add cookiesPerClick to total cookies */
-  gameState.cookies += gameState.cookiesPerClick;
-
-  /* TODO: Update the display */
-  updateDisplay();
-
-  /* TODO: Add a visual effect when clicked */
-  /* Hint: Add animation class to button */
-  cookieButton.classList.add('clicked');
-  setTimeout(() => {
-    cookieButton.classList.remove('clicked');
-  }, 100);
-});
-
-/* ============================================ */
-/* Update Display Function */
-/* ============================================ */
-
-function updateDisplay() {
-  /* TODO: Update cookie count display */
-  cookieCountDisplay.textContent = Math.floor(gameState.cookies);
-
-  /* TODO: Update cookies per second display */
-  cpsDisplay.textContent = gameState.cookiesPerSecond.toFixed(1);
-
-  /* TODO: Update cookies per click display */
-  cpcDisplay.textContent = gameState.cookiesPerClick;
-}
-/* TODO: Create a function to generate shop items */
-/* Hint: Create upgrade objects with name, cost, effect, etc. */
-function generateShopItems() {
-    const upgrades = [
-        {
-            name: 'Cursor',
-            cost: 15,
-            description: 'Automatically clicks the cookie every second.',
-            effect: function() {
-                gameState.cookiesPerSecond += 1;
-            }
-        },
-        {
-            name: 'Grandma',
-            cost: 100,
-            description: 'A nice grandma to bake more cookies.',
-            effect: function() {
-                gameState.cookiesPerSecond += 5;
-            }
-        },
-        {
-            name: 'Farm',
-            cost: 500,
-            description: 'A cookie farm to grow cookies.',
-            effect: function() {
-                gameState.cookiesPerSecond += 20;
-            }
-        }
-    ];
-
-    upgrades.forEach(upgrade => {
-        const shopItem = document.createElement('div');
-        
-
-/* TODO: Create a function to generate shop items */
-/* Hint: Create upgrade objects with name, cost, effect, etc. */ 
-function generateShopItems() {
-  /* TODO: Define available upgrades */
-  /* Hint: Each upgrade should have: name, cost, description, effect */
-  const upgrades = [
-    {
-      name: 'Cursor',
-      cost: 15,
-      description: 'Automatically clicks the cookie every second.',
-      effect: function () {
-        gameState.cookiesPerClick += 1;
-      },
-    },
-    {
-      name: 'Grandma',
-      cost: 100,
-      description: 'A nice grandma to bake more cookies.',
-      effect: function () {
-        gameState.cookiesPerSecond += 0.5;
-      },
-    },
-    {
-      name: 'Farm',
-      cost: 500,
-      description: 'A cookie farm to grow cookies.',
-      effect: function () {
-        gameState.cookiesPerSecond += 5;
-      },
-    },
-  ];
-
-  /* TODO: Create HTML elements for each upgrade */
-  /* Hint: Loop through upgrades and create shop-item divs */
-  upgrades.forEach((upgrade) => {
-    const shopItem = document.createElement('div');
-    shopItem.className = 'shop-item';
-    shopItem.innerHTML = `
-      <h3>${upgrade.name}</h3>
-      <p>${upgrade.description}</p>
-      <p class="item-cost">Cost: ${upgrade.cost} cookies</p>
-      <button class="buy-button">Buy</button>
-    `;
-    shopContainer.appendChild(shopItem);
-
-    /* TODO: Add event listener to buy button */
-    /* Hint: Check if player has enough cookies, deduct cost, apply effect */
-    const buyButton = shopItem.querySelector('.buy-button');
-    buyButton.addEventListener('click', function () {
-      buyUpgrade(upgrade);
-    });
+    window.location.href = '/login';
   });
+
+function spawnFallingCookie() {
+    if (currentFallingCount >= maxFallingCookies) return;
+
+    const fCookie = document.createElement("div");
+    fCookie.className = "falling-cookie";
+    
+    const rect = cookieContainer.getBoundingClientRect();
+    const randomX = Math.random() * (rect.width - 40);
+    fCookie.style.left = randomX + "px";
+
+    const duration = 1.5 + Math.random() * 1.5;
+    fCookie.style.animationDuration = duration + "s";
+
+    cookieContainer.appendChild(fCookie);
+    currentFallingCount++;
+
+    fCookie.addEventListener("animationend", () => {
+        fCookie.remove();
+        currentFallingCount--;
+    });
 }
 
-/* ============================================ */
-/* Buy Upgrade Function */
-/* ============================================ */
-
-/* TODO: Create a function to buy upgrades */
-/* Hint: Check if player has enough cookies, deduct and apply effect */
-function buyUpgrade(upgrade) {
-  /* TODO: Check if player has enough cookies */
-  if (gameState.cookies >= upgrade.cost) {
-    /* TODO: Deduct cost from cookies */
-    gameState.cookies -= upgrade.cost;
-
-    /* TODO: Apply the upgrade effect */
-    upgrade.effect();
-
-    /* TODO: Add upgrade to purchased list (optional) */
-    gameState.upgrades.push(upgrade.name);
-
-    /* TODO: Update display */
-    updateDisplay();
-
-    /* TODO: Add visual feedback */
-    console.log('Upgrade purchased:', upgrade.name);
-  } else {
-    /* TODO: Show notification that player doesn't have enough cookies */
-    alert('Not enough cookies to purchase this upgrade!');
-  }
+async function loadGame() {
+    const res = await fetch("/cookie_game", { method: "POST" });
+    userData = await res.json();
+    if(userData.username) document.getElementById("popup-username").textContent = userData.username;
+    render();
 }
 
-/* ============================================ */
-/* Passive Income Function */
-/* ============================================ */
+function render() {
+    const totalCps = Math.round(userData.cookiesPerSecond || 0);
+    cookieCountEl.textContent = `${Math.round(userData.cookies)} cookies (${totalCps} CPS)`;
 
-/* TODO: Create a function for passive income (cookies per second) */
-/* Hint: Use setInterval to increment cookies every second */
-function startPassiveIncome() {
-  /* TODO: Add cookiesPerSecond to total cookies */
-  setInterval(() => {
-    gameState.cookies += gameState.cookiesPerSecond;
-    updateDisplay();
-  }, 1000); // Every 1000ms (1 second)
+    upgradesEl.innerHTML = "";
+    upgradeOrder.forEach(name => {
+        const up = userData.upgrades[name];
+        if (up.quantity > 0) {
+            let cpsText = name !== "doubleClick" ? `<br>CPS: ${Math.round(up.cookiesPerSecond * up.level)}` : "";
+            upgradesEl.innerHTML += `<div class="upgrade"><b>${name}</b><br>Qty: ${up.quantity}<br>Lvl: ${up.level}${cpsText}</div>`;
+        }
+    });
+
+    levelupShopEl.innerHTML = "";
+    upgradeOrder.forEach(name => {
+        const up = userData.upgrades[name];
+        if (up.quantity > 0) {
+            levelupShopEl.innerHTML += `
+                <div class="levelup-item">
+                    <b>${name}</b> (Lvl ${up.level})<br>
+                    Price: ${Math.round(up.levelup_price || up.price)}
+                    <button onclick="buyLevelUp('${name}')">Level Up</button>
+                </div>`;
+        }
+    });
+
+    shopEl.innerHTML = "";
+    for (let i = 0; i < upgradeOrder.length; i++) {
+        const name = upgradeOrder[i];
+        const up = userData.upgrades[name];
+        if (i > 0 && userData.upgrades[upgradeOrder[i - 1]].quantity === 0) break;
+        
+        shopEl.innerHTML += `
+            <div class="shop-item">
+                <b>${name}</b><br> Price: ${Math.round(up.price)}
+                <button onclick="buyUpgrade('${name}')">Buy</button>
+            </div>`;
+    }
 }
 
-/* ============================================ */
-/* Save and Load Game Functions */
-/* ============================================ */
-
-/* TODO: Add event listener to save button */
-/* Hint: Save gameState to localStorage */
-saveButton.addEventListener('click', function () {
-  /* TODO: Save current game state to localStorage */
-  /* Hint: Use JSON.stringify() to convert object to string */
-  localStorage.setItem('gameState', JSON.stringify(gameState));
-
-  /* TODO: Show confirmation message */
-  alert('Game saved successfully!');
-  console.log('Game saved:', gameState);
+cookieEl.addEventListener("click", async () => {
+    spawnFallingCookie();
+    await fetch("/click", { method: "POST" });
+    await loadGame();
 });
 
-/* TODO: Add event listener to load button */
-/* Hint: Load gameState from localStorage */
-loadButton.addEventListener('click', function () {
-  /* TODO: Load saved game state from localStorage */
-  const savedGame = localStorage.getItem('gameState');
+async function buyUpgrade(name) {
+    const form = new FormData();
+    form.append("upgrade_name", name);
+    await fetch("/buy_upgrades", { method: "POST", body: form });
+    await loadGame();
+}
 
-  if (savedGame) {
-    /* TODO: Parse and apply the saved state */
-    gameState = JSON.parse(savedGame);
+async function buyLevelUp(name) {
+    const form = new FormData();
+    form.append("upgrade_name", name);
+    await fetch("/buy_levelup", { method: "POST", body: form });
+    await loadGame();
+}
 
-    /* TODO: Update display */
-    updateDisplay();
+setInterval(async () => {
+    await fetch("/upgrade_click", { method: "POST" });
+    await loadGame();
+    
+    if (userData && userData.cookiesPerSecond > 0) {
+        const cps = userData.cookiesPerSecond;
 
-    /* TODO: Show confirmation message */
-    alert('Game loaded successfully!');
-  } else {
-    /* TODO: Show message if no save exists */
-    alert('No saved game found!');
-  }
-});
+        let amountToSpawn = Math.min(Math.ceil(cps / 10), 5); 
 
-/* ============================================ */
-/* Back Button Function */
-/* ============================================ */
+        for (let i = 0; i < amountToSpawn; i++) {
+            const delay = Math.random() * 800;
+            setTimeout(() => {
+                spawnFallingCookie();
+            }, delay);
+        }
+    }
+}, 1000);
 
-/* TODO: Add event listener to back button */
-/* Hint: Navigate back to home page */
-backButton.addEventListener('click', function () {
-  /* TODO: Confirm before leaving */
-  /* Hint: Ask if user wants to save before leaving */
-  const confirmed = confirm(
-    'Would you like to save your game before leaving?'
-  );
+const accountIcon = document.getElementById("account-icon");
+const accountPopup = document.getElementById("account-popup");
+accountIcon.onclick = () => accountPopup.style.display = accountPopup.style.display === "block" ? "none" : "block";
 
-  if (confirmed) {
-    /* TODO: Save the game */
-    localStorage.setItem('gameState', JSON.stringify(gameState));
-    alert('Game saved!');
-  }
-
-  /* TODO: Redirect to home page */
-  window.location.href = 'home.html';
-});
-
-/* ============================================ */
-/* Extra Features (Optional) */
-/* ============================================ */
-
-/* TODO: Implement auto-save feature */
-/* Hint: Use setInterval to save game state periodically */
-setInterval(() => {
-  localStorage.setItem('gameState', JSON.stringify(gameState));
-}, 30000); // Auto-save every 30 seconds
-
-/* TODO: Add keyboard shortcuts */
-/* Hint: Listen for keyboard events and trigger actions */
-document.addEventListener('keydown', function (event) {
-  if (event.key === 's' || event.key === 'S') {
-    // Press 'S' to save
-    localStorage.setItem('gameState', JSON.stringify(gameState));
-    console.log('Game auto-saved via keyboard!');
-  }
-});
-
-/* TODO: Add more game features */
-/* Hint: Achievements, multipliers, special events, etc. */
-// Add more features here as needed
+document.addEventListener("DOMContentLoaded", loadGame);

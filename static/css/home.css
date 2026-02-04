@@ -6,18 +6,82 @@ body {
   justify-content: center;
   align-items: center;
   margin: 0;
-  padding: 0;
+  padding: 10px; /* Добавили отступ для мобильных */
   color: #2c1810;
 }
 
+*:focus,
+*:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+button,
+a,
+input,
+.btn {
+  outline: none !important;
+}
+
+button:focus,
+button:active,
+a:focus,
+a:active {
+  outline: none !important;
+}
+
+/* ====== ACCOUNT ICON & POPUP ====== */
+.account-wrapper {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+}
+
+#account-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #ffcc4d;
+  transition: transform 0.2s;
+  outline: none;
+  object-fit: cover;
+}
+
+#account-icon:hover {
+  transform: scale(1.1);
+}
+
+.account-popup {
+  display: none;
+  position: absolute;
+  top: 50px;
+  right: 0;
+  width: 150px;
+  background: #fff8d6;
+  border: 2px solid #daa520;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.popup-username {
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #5a3e1b;
+}
+
+/* ====== HOME CONTAINER ====== */
 .home-container {
-  width: 400px;
+  width: 100%;
   max-width: 400px;
   padding: 40px;
   background: linear-gradient(135deg, #fff8dc 0%, #fffacd 100%);
   border: 3px solid #daa520;
   border-radius: 15px;
-  box-shadow: 0 8px 32px rgb(218 165 32 / 40%);
+  box-shadow: 0 8px 32px rgba(218, 165, 32, 0.4);
 }
 
 .home-container h1 {
@@ -25,7 +89,7 @@ body {
   color: #8b4513;
   text-align: center;
   margin-bottom: 30px;
-  text-shadow: 2px 2px 4px rgb(218 165 32 / 30%);
+  text-shadow: 2px 2px 4px rgba(218, 165, 32, 0.3);
 }
 
 .user-info {
@@ -40,8 +104,8 @@ body {
   gap: 15px;
 }
 
-/* Pill-shaped button with bite mark */
-.button[class],
+/* ====== BUTTONS ====== */
+.btn,
 .btn-new-game,
 .btn-continue,
 .btn-register,
@@ -58,50 +122,98 @@ body {
   text-align: center;
   transition: all 0.3s ease;
   overflow: hidden;
+  text-decoration: none;
+  display: block;
+  outline: none;
 }
 
-/* Bite mark effect using pseudo-element */
-.button[class]::after,
-.btn-new-game::after,
-.btn-continue::after,
-.btn-register::after,
-.btn-logout::after {
-  content: '';
-  position: absolute;
-  width: 35px;
-  height: 35px;
-  background: linear-gradient(135deg, #fff8dc 0%, #fffacd 100%);
-  border-radius: 50%;
-  top: -8px;
-  right: 15px;
-}
-
-.button[class]:hover,
+.btn:hover,
 .btn-new-game:hover,
 .btn-continue:hover,
 .btn-register:hover,
 .btn-logout:hover {
   background-color: #e6ac00;
-  box-shadow: 0 6px 16px rgb(0 0 0 / 25%);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25) !important;
   transform: translateY(-3px);
 }
 
-.button[class]:active,
+.btn:active,
 .btn-new-game:active,
 .btn-continue:active,
 .btn-register:active,
 .btn-logout:active {
   transform: translateY(-1px);
-  box-shadow: 0 3px 8px rgb(0 0 0 / 20%);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2) !important;
 }
 
-@media (width <= 600px) {
+#popup-logout-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: 2px solid #c0392b;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+#popup-logout-btn:hover {
+  background-color: #c0392b;
+}
+
+/* ====== RESPONSIVE ====== */
+
+/* Планшеты (до 768px) */
+@media (max-width: 768px) {
+  body {
+    padding: 8px;
+  }
+
   .home-container {
-    width: 90%;
+    max-width: 500px;
+    padding: 30px;
+  }
+
+  .home-container h1 {
+    font-size: 28px;
+    margin-bottom: 25px;
+  }
+
+  .user-info {
+    font-size: 17px;
+  }
+
+  .btn,
+  .btn-new-game,
+  .btn-continue,
+  .btn-register,
+  .btn-logout {
+    font-size: 15px;
+    padding: 12px 35px;
+  }
+
+  #account-icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .account-popup {
+    width: 140px;
+    top: 48px;
+  }
+}
+
+/* Мобильные устройства (до 600px) */
+@media (max-width: 600px) {
+  body {
+    padding: 5px;
+  }
+
+  .home-container {
+    width: 100%;
+    max-width: 100%;
     padding: 20px;
     margin: 10px;
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgb(0 0 0 / 10%);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
 
   .home-container h1 {
@@ -114,9 +226,152 @@ body {
     margin-bottom: 15px;
   }
 
-  .button[class] {
+  .button-container {
+    gap: 12px;
+  }
+
+  .btn,
+  .btn-new-game,
+  .btn-continue,
+  .btn-register,
+  .btn-logout {
     font-size: 14px;
     padding: 10px 20px;
   }
-  
+
+  #account-icon {
+    width: 35px;
+    height: 35px;
+  }
+
+  .account-popup {
+    width: 130px;
+    top: 45px;
+    padding: 8px;
+    font-size: 13px;
+  }
+
+  #popup-logout-btn {
+    padding: 8px 15px;
+    font-size: 13px;
+  }
+}
+
+/* Очень маленькие мобильные (до 400px) */
+@media (max-width: 400px) {
+  body {
+    padding: 3px;
+  }
+
+  .home-container {
+    padding: 15px;
+    margin: 5px;
+    border-radius: 8px;
+  }
+
+  .home-container h1 {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  .user-info {
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+
+  .button-container {
+    gap: 10px;
+  }
+
+  .btn,
+  .btn-new-game,
+  .btn-continue,
+  .btn-register,
+  .btn-logout {
+    font-size: 13px;
+    padding: 8px 15px;
+    border-radius: 40px;
+  }
+
+  #account-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .account-popup {
+    width: 120px;
+    top: 42px;
+    padding: 6px;
+    font-size: 12px;
+  }
+
+  #popup-logout-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+
+/* Альбомная ориентация на мобильных */
+@media (max-height: 500px) and (orientation: landscape) {
+  body {
+    align-items: flex-start;
+    padding-top: 10px;
+  }
+
+  .home-container {
+    margin: 10px auto;
+    padding: 15px;
+  }
+
+  .home-container h1 {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  .user-info {
+    margin-bottom: 10px;
+  }
+
+  .button-container {
+    gap: 8px;
+  }
+
+  .btn,
+  .btn-new-game,
+  .btn-continue,
+  .btn-register,
+  .btn-logout {
+    padding: 8px 20px;
+    font-size: 13px;
+  }
+}
+
+/* Очень маленькая высота экрана */
+@media (max-height: 400px) {
+  .home-container {
+    padding: 10px;
+  }
+
+  .home-container h1 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  .user-info {
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+
+  .button-container {
+    gap: 6px;
+  }
+
+  .btn,
+  .btn-new-game,
+  .btn-continue,
+  .btn-register,
+  .btn-logout {
+    padding: 6px 15px;
+    font-size: 12px;
+  }
 }

@@ -176,7 +176,7 @@ def admin_panel():
 
 @app.route("/privacy-policy/<language>", methods=["GET"])
 def privacy_policy(language):
-    privacy_policy = translate_text("config\\privacy-policy.txt", language)
+    privacy_policy = translate_text("config/privacy-policy.txt", language)
     return render_template("privacy_policy.html",
     privacy_policy = privacy_policy
     )
